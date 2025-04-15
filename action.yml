@@ -1,29 +1,29 @@
 name: Postman Automated test
+description: Run a Postman collection
 
-on:
-  workflow_call:
-    inputs:
-      collection:
-        description: “Postman collection to run”
-        required: true
-        type: string
-      POSTMAN_ENV:
-        description: “Postman environment variables”
-        required: true
-      POSTMAN_AK:
-        description: “Postman API key”
-        required: true
+inputs:
+  collection:
+    description: “Postman collection to run”
+    required: true
+  POSTMAN_ENV:
+    description: “Postman environment variables”
+    required: true
+  POSTMAN_AK:
+    description: “Postman API key”
+    required: true
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ inputs.POSTMAN_AK }}
-      - name: Run API tests
-        run: |
-          postman collection run "${{ github.workspace }}/postman/collections/${{inputs.collection}}" -e "${{ inputs.POSTMAN_ENV }}"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Install Postman CLI
+      shell: sh
+      run: |
+        curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+    - name: Login to Postman CLI
+      shell: sh
+      run: postman login --with-api-key ${{ inputs.POSTMAN_AK }}
+    - name: Run API tests
+      shell: sh
+      run: |
+        postman collection run "${{ github.workspace }}/postman/collections/${{inputs.collection}}" -e "${{ inputs.POSTMAN_ENV }}"
