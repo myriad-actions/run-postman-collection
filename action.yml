@@ -5,7 +5,7 @@ on:
     inputs:
       collection:
         description: “Postman collection to run”
-        required: truei
+        required: true
         type: string
       POSTMAN_ENV:
         description: “Postman environment variables”
