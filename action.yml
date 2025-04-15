@@ -2,13 +2,10 @@ name: Postman Automated test
 
 on:
   workflow_call:
-    secrets:
-      SSH_KEY:
-        required: true
     inputs:
       collection:
         description: “Postman collection to run”
-        required: true
+        required: truei
         type: string
       POSTMAN_ENV:
         description: “Postman environment variables”
