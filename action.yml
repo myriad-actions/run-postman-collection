@@ -11,6 +11,10 @@ inputs:
   POSTMAN_AK:
     description: “Postman API key”
     required: true
+  POSTMAN_ENV_VARS:
+    description: "Optional Postman --env-var parameters"
+    required: false
+    default: ""
 
 runs:
   using: "composite"
@@ -26,4 +30,6 @@ runs:
     - name: Run API tests
       shell: sh
       run: |
-        postman collection run "${{ github.workspace }}/postman/collections/${{inputs.collection}}" -e "${{ inputs.POSTMAN_ENV }}"
+        postman collection run "${{ github.workspace }}/postman/collections/${{ inputs.collection }}" \
+        -e "${{ inputs.POSTMAN_ENV }}" \
+        ${{ inputs.POSTMAN_ENV_VARS }}
