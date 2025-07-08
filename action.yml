@@ -5,7 +5,7 @@ inputs:
   collection:
     description: "Postman collection to run"
     required: true
-  test_scope:
+  scope:
     description: "Scope of the test to be ran, e.g. 'smoke', 'critical', 'full', etc."
     required: false
     default: "full"
@@ -36,5 +36,5 @@ runs:
       run: |
         postman collection run "${{ github.workspace }}/postman/collections/${{ inputs.collection }}" \
         -e "${{ inputs.POSTMAN_ENV }}" \
-        --env-var "tag_to_run=${{ inputs.test_scope }}" \
+        --env-var "tag_to_run=${{ inputs.scope }}" \
         ${{ inputs.POSTMAN_ENV_VARS }}
