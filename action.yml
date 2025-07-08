@@ -3,13 +3,17 @@ description: Run a Postman collection
 
 inputs:
   collection:
-    description: “Postman collection to run”
+    description: "Postman collection to run"
     required: true
+  scope:
+    description: "Scope of the test to be ran, e.g. 'smoke', 'critical', 'full', etc."
+    required: false
+    default: "full"
   POSTMAN_ENV:
-    description: “Postman environment variables”
+    description: "Postman environment variables"
     required: true
   POSTMAN_AK:
-    description: “Postman API key”
+    description: "Postman API key"
     required: true
   POSTMAN_ENV_VARS:
     description: "Optional Postman --env-var parameters"
@@ -32,4 +36,5 @@ runs:
       run: |
         postman collection run "${{ github.workspace }}/postman/collections/${{ inputs.collection }}" \
         -e "${{ inputs.POSTMAN_ENV }}" \
+        --env-var "tag_to_run=${{ inputs.scope }}" \
         ${{ inputs.POSTMAN_ENV_VARS }}
